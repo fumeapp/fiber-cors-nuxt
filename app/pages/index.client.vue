@@ -2,7 +2,7 @@
 const data = ref(undefined)
 const error = ref(undefined)
 const get = async () => {
-  const response = await $fetch('https://d245hvitoez60u.cloudfront.net/', { method: 'POST'}).catch(err => {
+  const response = await $fetch('https://d245hvitoez60u.cloudfront.net/').catch(err => {
     error.value = err
   })
   data.value = response
@@ -19,7 +19,7 @@ onMounted(get)
     <UCard class="w-full">
       <template #header>
         <div class="flex justify-between">
-        <UBadge color="neutral"> POST https://d245hvitoez60u.cloudfront.net/ </UBadge>
+        <UBadge color="neutral"> GET https://d245hvitoez60u.cloudfront.net/ </UBadge>
         <UButton
           icon="i-mdi-refresh"
           @click="get"
