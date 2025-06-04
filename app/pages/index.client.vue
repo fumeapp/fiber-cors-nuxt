@@ -1,5 +1,13 @@
 <script lang="ts" setup>
-const { data, refresh, status, error } = useFetch('https://d245hvitoez60u.cloudfront.net/')
+const data = ref(undefined)
+const error = ref(undefined)
+const get = async () => {
+  const response = await $fetch('https://d245hvitoez60u.cloudfront.net/', { method: 'POST'}).catch(err => {
+    error.value = err
+  })
+  data.value = response
+}
+onMounted(get)
 </script>
 
 <template>
@@ -8,23 +16,15 @@ const { data, refresh, status, error } = useFetch('https://d245hvitoez60u.cloudf
       fiber CORS test
     </h1>
 
-    <div class="flex items-center gap-2">
-      <UButton
-        label="Refresh GET"
-        @click="refresh"
-      />
-   </div>
-
     <UCard class="w-full">
       <template #header>
         <div class="flex justify-between">
-
-        <UBadge color="neutral"> GET https://d245hvitoez60u.cloudfront.net/ </UBadge>
-        <UButtonGroup>
-          <UBadge>status</UBadge>
-          <UBadge>{{  status }}</UBadge>
-        </UButtonGroup>
-        </div>
+        <UBadge color="neutral"> POST https://d245hvitoez60u.cloudfront.net/ </UBadge>
+        <UButton
+          icon="i-mdi-refresh"
+          @click="get"
+        />
+       </div>
       </template>
       <pre class="text-xs overflow-scroll"> {{ data }}</pre>
     </UCard>
@@ -32,6 +32,6 @@ const { data, refresh, status, error } = useFetch('https://d245hvitoez60u.cloudf
       <template #description>
         {{  error  }}
       </template>
-      </UAlert>
+    </UAlert>
   </div>
 </template>
